@@ -40,8 +40,8 @@ class MainScene: CCNode {
   }
   
   private func generateVelocity() -> CGPoint {
-    let randX = drand48()
-    let correspondingY = sqrt(1 - randX*randX)
+    let randX = drand48() * 2 - 1
+    let correspondingY = drand48() < 0.5 ? sqrt(1 - randX*randX) : -sqrt(1 - randX*randX)
     let vector = CGPoint(x: randX * START_VELOCITY_MAGNITUDE, y: correspondingY * START_VELOCITY_MAGNITUDE)
     return vector
   }
