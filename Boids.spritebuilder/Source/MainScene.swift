@@ -14,6 +14,8 @@ class MainScene: CCNode {
   let NUM_BOIDS : Int = 20;
   let START_VELOCITY_MAGNITUDE : Double = 0.5
   
+  var BOIDS = [Boid]()
+  
   override func onEnter() {
     super.onEnter()
     if UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiom.Pad {
@@ -29,6 +31,7 @@ class MainScene: CCNode {
     for (var i = 0; i < NUM_BOIDS; i++){
       let boid = generateBoid()
       addChild(boid)
+      BOIDS.append(boid)
     }
   }
   
@@ -36,6 +39,7 @@ class MainScene: CCNode {
     let boid = CCBReader.load("Boid") as! Boid
     boid.position = CGPoint(x: CGFloat(drand48()) * screenWidth, y: CGFloat(drand48()) * screenHeight)
     boid.velocity = generateVelocity()
+//    boid.velocity = CGPoint(x: -1, y: -1)
     return boid
   }
   
@@ -51,9 +55,13 @@ class MainScene: CCNode {
 extension MainScene : BoidDelegate {
   
   func getBoidsWithinDistance(x: Float, ofBoid: Boid) -> [Boid] {
-    let boids = [Boid]()
+    var boids = [Boid]()
     
-    //get boids within distance, including those on the other side of the screen
+    for boid in BOIDS {
+      if boid != ofBoid && getDistanceBetween(boid, boid2: ofBoid) < x {
+        boids.append(boid)
+      }
+    }
     
     return boids
   }

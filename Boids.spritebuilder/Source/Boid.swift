@@ -23,7 +23,13 @@ class Boid: CCSprite {
     
     velocity = sumOf([velocity,v1,v2,v3])
     position = sumOf([velocity,position])
-    position = CGPoint(x: position.x % screenWidth , y: position.y % screenHeight)
+    position = modulo(position)
+  }
+  
+  private func modulo(point:CGPoint) -> CGPoint{
+    let newX = point.x < 0 ? screenWidth + (point.x % screenWidth) : point.x % screenWidth
+    let newY = point.y < 0 ? screenHeight + (point.y % screenHeight) : point.y % screenHeight
+    return CGPoint(x: newX, y: newY)
   }
   
   private func sumOf(points:[CGPoint]) -> CGPoint{
