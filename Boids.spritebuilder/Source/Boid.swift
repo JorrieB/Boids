@@ -59,11 +59,20 @@ class Boid: CCSprite {
   
   // Boids try to fly towards the center of neighbouring boids.
   func rule1() -> CGPoint {
-    let centerPoint = delegate.getCenterOfBoidsWithin(VISIBLE_DIS, ofBoid: self)
-    if centerPoint.foundBoids {
-      return CGPoint(x: (-position.x + centerPoint.point.x) / COHESION, y: (-position.y + centerPoint.point.y)/COHESION)
+    let boidsNearMe = delegate.getBoidPositionsWithin(VISIBLE_DIS, ofBoid: self)
+    
+    
+    var averagePoint = CGPoint()
+    
+    if Bool(boidsNearMe.count){
+      for point in boidsNearMe{
+        averagePoint = CGPoint(x: averagePoint.x + point.x, y: averagePoint.y + point.y)
+      }
+      averagePoint = CGPoint(x: averagePoint.x / CGFloat(boidsNearMe.count),y: averagePoint.y / CGFloat(boidsNearMe.count))
+      return CGPoint(x: (averagePoint.x - position.x)/COHESION, y: (averagePoint.y - position.y)/COHESION)
     }
-    return centerPoint.point
+    return CGPoint()
+    
   }
   
   // Boids try to keep a small distance away from other boids.
@@ -90,7 +99,6 @@ class Boid: CCSprite {
 }
 
 protocol BoidDelegate {
-  func getCenterOfBoidsWithin(x: CGFloat, ofBoid:Boid) -> (foundBoids:Bool,point:CGPoint)
   func getBoidPositionsWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
   func getBoidVelocitiesWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
 }
