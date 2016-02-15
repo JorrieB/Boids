@@ -10,8 +10,15 @@ import Foundation
 
 class Boid: CCSprite {
   
-  let VISIBLE_DIS : CGFloat = 50
-  let CAUTION_DIS : CGFloat = 10
+  let VISIBLE_DIS : CGFloat = 60
+  let CAUTION_DIS : CGFloat = 20
+  let MAX_VELOCITY : CGFloat = 1.5
+  
+  //vars for different boid behaviors
+  //lower number = higher effect
+  let COHESION : CGFloat = 900
+  let REPULSION : CGFloat = 150
+  let VEL_MATCHING : CGFloat = 600
   
   var velocity = CGPoint()
   var delegate : BoidDelegate!
@@ -23,8 +30,17 @@ class Boid: CCSprite {
     let v3 = rule3()
     
     velocity = sumOf([velocity,v1,v2,v3])
+    speedCheck()
     position = sumOf([velocity,position])
     position = modulo(position)
+    
+    
+    rotation = atan2(Float(velocity.x), Float(velocity.y)) * 180 / Float(M_PI) - 90
+  }
+  
+  private func speedCheck(){
+    let speed = sqrt(velocity.x * velocity.x + velocity.y * velocity.y)
+    velocity = speed < MAX_VELOCITY ? velocity : CGPoint(x: velocity.x / speed * MAX_VELOCITY, y: velocity.y / speed * MAX_VELOCITY)
   }
   
   private func modulo(point:CGPoint) -> CGPoint{
@@ -45,20 +61,26 @@ class Boid: CCSprite {
   func rule1() -> CGPoint {
     let centerPoint = delegate.getCenterOfBoidsWithin(VISIBLE_DIS, ofBoid: self)
     if centerPoint.foundBoids {
-      return CGPoint(x: (position.x - centerPoint.point.x) / 1000, y: (position.y - centerPoint.point.y)/1000)
+      return CGPoint(x: (-position.x + centerPoint.point.x) / COHESION, y: (-position.y + centerPoint.point.y)/COHESION)
     }
     return centerPoint.point
   }
   
   // Boids try to keep a small distance away from other boids.
   func rule2() -> CGPoint {
-    
-    return CGPoint()
+    let boidsTooClose = delegate.getBoidPositionsWithin(CAUTION_DIS, ofBoid: self)
+    var velocity = CGPoint()
+    for point in boidsTooClose {
+      velocity = CGPoint(x: -velocity.x + (position.x - point.x), y: -velocity.y + (position.y - point.y))
+    }
+    return CGPoint(x: velocity.x / REPULSION, y: velocity.y / REPULSION)
   }
   
   // Boids try to match velocity with nearby boids.
   func rule3() -> CGPoint {
-    return CGPoint()
+    let nearbyVelocities = delegate.getBoidVelocitiesWithin(VISIBLE_DIS, ofBoid: self)
+    let velocity = sumOf(nearbyVelocities)
+    return CGPoint(x: velocity.x/VEL_MATCHING, y: velocity.y/VEL_MATCHING)
   }
   
   func averageBoid(positions: [Boid]) -> CGPoint{
@@ -69,4 +91,6 @@ class Boid: CCSprite {
 
 protocol BoidDelegate {
   func getCenterOfBoidsWithin(x: CGFloat, ofBoid:Boid) -> (foundBoids:Bool,point:CGPoint)
+  func getBoidPositionsWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
+  func getBoidVelocitiesWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
 }

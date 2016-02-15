@@ -12,7 +12,7 @@ var screenWidth,screenHeight : CGFloat!
 
 class MainScene: CCNode {
   let NUM_BOIDS : Int = 20;
-  let START_VELOCITY_MAGNITUDE : Double = 0.75
+  let START_VELOCITY_MAGNITUDE : Double = 0.25
   
   var BOIDS = [Boid]()
   
@@ -54,6 +54,31 @@ class MainScene: CCNode {
 }
 
 extension MainScene : BoidDelegate {
+  func getBoidVelocitiesWithin(x: CGFloat, ofBoid: Boid) -> [CGPoint] {
+    var targetVelocities = [CGPoint]()
+    for boid in BOIDS{
+      if boid != ofBoid{
+        let possiblePoint = checkBounds(ofBoid, boid2: boid, delta: x)
+        if possiblePoint.isValid {
+          targetVelocities.append(boid.velocity)
+        }
+      }
+    }
+    return targetVelocities
+  }
+  func getBoidPositionsWithin(x: CGFloat, ofBoid: Boid) -> [CGPoint] {
+    var targetPoints = [CGPoint]()
+    for boid in BOIDS{
+      if boid != ofBoid{
+        let possiblePoint = checkBounds(ofBoid, boid2: boid, delta: x)
+        if possiblePoint.isValid {
+          targetPoints.append(possiblePoint.point)
+        }
+      }
+    }
+    return targetPoints
+  }
+  
   func getCenterOfBoidsWithin(x: CGFloat, ofBoid:Boid) -> (foundBoids:Bool,point:CGPoint){
     var points = [CGPoint]()
     
