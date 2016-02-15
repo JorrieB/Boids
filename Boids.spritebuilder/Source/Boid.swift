@@ -10,13 +10,14 @@ import Foundation
 
 class Boid: CCSprite {
   
-  let VISIBLE_DIS : Float = 75
-  let CAUTION_DIS : Float = 10
+  let VISIBLE_DIS : CGFloat = 50
+  let CAUTION_DIS : CGFloat = 10
   
   var velocity = CGPoint()
   var delegate : BoidDelegate!
 
   override func update(delta: CCTime) {
+    
     let v1 = rule1()
     let v2 = rule2()
     let v3 = rule3()
@@ -42,12 +43,16 @@ class Boid: CCSprite {
   
   // Boids try to fly towards the center of neighbouring boids.
   func rule1() -> CGPoint {
-    
-    return CGPoint()
+    let centerPoint = delegate.getCenterOfBoidsWithin(VISIBLE_DIS, ofBoid: self)
+    if centerPoint.foundBoids {
+      return CGPoint(x: (position.x - centerPoint.point.x) / 1000, y: (position.y - centerPoint.point.y)/1000)
+    }
+    return centerPoint.point
   }
   
   // Boids try to keep a small distance away from other boids.
   func rule2() -> CGPoint {
+    
     return CGPoint()
   }
   
@@ -63,5 +68,5 @@ class Boid: CCSprite {
 }
 
 protocol BoidDelegate {
-  func getBoidsWithinDistance(x:Float, ofBoid:Boid) -> [Boid]
+  func getCenterOfBoidsWithin(x: CGFloat, ofBoid:Boid) -> (foundBoids:Bool,point:CGPoint)
 }
