@@ -35,7 +35,7 @@ class Boid: CCSprite {
     position = modulo(position)
     
     
-    rotation = atan2(Float(velocity.x), Float(velocity.y)) * 180 / Float(M_PI) - 90
+    rotation = atan2(Float(velocity.x), Float(velocity.y)) * 180 / Float(M_PI)
   }
   
   private func speedCheck(){
