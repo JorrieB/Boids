@@ -24,12 +24,6 @@ class Boid: CCSprite {
   var delegate : BoidDelegate!
 
   override func update(delta: CCTime) {
-    
-    let v1 = rule1()
-    let v2 = rule2()
-    let v3 = rule3()
-    
-    velocity = sumOf([velocity,v1,v2,v3])
     speedCheck()
     position = sumOf([velocity,position])
     position = modulo(position)
@@ -57,37 +51,13 @@ class Boid: CCSprite {
   }
   
   // Boids swim toward other nearby boids.
-  func rule1() -> CGPoint {
-    let boidsNearMe = delegate.getBoidPositionsWithin(VISIBLE_DIS, ofBoid: self)
-    
-    var averagePoint = CGPoint()
-    if Bool(boidsNearMe.count){
-      for point in boidsNearMe{
-        averagePoint = CGPoint(x: averagePoint.x + point.x, y: averagePoint.y + point.y)
-      }
-      averagePoint = CGPoint(x: averagePoint.x / CGFloat(boidsNearMe.count),y: averagePoint.y / CGFloat(boidsNearMe.count))
-      return CGPoint(x: (averagePoint.x - position.x)/COHESION, y: (averagePoint.y - position.y)/COHESION)
-    }
-    return CGPoint()
-    
-  }
+
   
   // Boids keep a small distance from nearby boids.
-  func rule2() -> CGPoint {
-    let boidsTooClose = delegate.getBoidPositionsWithin(CAUTION_DIS, ofBoid: self)
-    var newVelocity = CGPoint()
-    for point in boidsTooClose {
-      newVelocity = CGPoint(x:  (position.x - point.x) - newVelocity.x , y: (position.y - point.y) - newVelocity.y)
-    }
-    return CGPoint(x: newVelocity.x / REPULSION, y: newVelocity.y / REPULSION)
-  }
+
   
   // Boids match velocity with nearby boids.
-  func rule3() -> CGPoint {
-    let nearbyVelocities = delegate.getBoidVelocitiesWithin(VISIBLE_DIS, ofBoid: self)
-    let newVelocity = sumOf(nearbyVelocities)
-    return CGPoint(x: newVelocity.x/VEL_MATCHING, y: newVelocity.y/VEL_MATCHING)
-  }
+
   
 }
 
