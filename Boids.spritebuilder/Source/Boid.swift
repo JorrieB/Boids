@@ -61,14 +61,14 @@ class Boid: CCSprite {
     let boidsNearMe = delegate.getBoidPositionsWithin(VISIBLE_DIS, ofBoid: self)
     
     var averagePoint = CGPoint()
-    if Bool(boidsNearMe.count){
-      for point in boidsNearMe{
-        averagePoint = CGPoint(x: averagePoint.x + point.x, y: averagePoint.y + point.y)
-      }
-      averagePoint = CGPoint(x: averagePoint.x / CGFloat(boidsNearMe.count),y: averagePoint.y / CGFloat(boidsNearMe.count))
-      return CGPoint(x: (averagePoint.x - position.x)/COHESION, y: (averagePoint.y - position.y)/COHESION)
+    for point in boidsNearMe{
+      averagePoint = CGPoint(x: averagePoint.x + point.x, y: averagePoint.y + point.y)
     }
-    return CGPoint()
+    if Bool(boidsNearMe.count){
+      
+      averagePoint = CGPoint(x: averagePoint.x / CGFloat(boidsNearMe.count),y: averagePoint.y / CGFloat(boidsNearMe.count))
+    }
+    return CGPoint(x: (averagePoint.x - position.x)/COHESION, y: (averagePoint.y - position.y)/COHESION)
     
   }
   
