@@ -17,8 +17,8 @@ class Boid: CCSprite {
   //vars for different boid behaviors
   //lower number = higher effect
   let COHESION : CGFloat = 900
-  let REPULSION : CGFloat = 150
-  let VEL_MATCHING : CGFloat = 600
+  let SEPARATION : CGFloat = 150
+  let ALIGNMENT : CGFloat = 600
   
   var velocity = CGPoint()
   var delegate : BoidDelegate!
@@ -65,7 +65,6 @@ class Boid: CCSprite {
       averagePoint = CGPoint(x: averagePoint.x + point.x, y: averagePoint.y + point.y)
     }
     if Bool(boidsNearMe.count){
-      
       averagePoint = CGPoint(x: averagePoint.x / CGFloat(boidsNearMe.count),y: averagePoint.y / CGFloat(boidsNearMe.count))
     }
     return CGPoint(x: (averagePoint.x - position.x)/COHESION, y: (averagePoint.y - position.y)/COHESION)
@@ -79,14 +78,14 @@ class Boid: CCSprite {
     for point in boidsTooClose {
       newVelocity = CGPoint(x:  (position.x - point.x) - newVelocity.x , y: (position.y - point.y) - newVelocity.y)
     }
-    return CGPoint(x: newVelocity.x / REPULSION, y: newVelocity.y / REPULSION)
+    return CGPoint(x: newVelocity.x / SEPARATION, y: newVelocity.y / SEPARATION)
   }
   
   // Boids match velocity with nearby boids.
   func rule3() -> CGPoint {
     let nearbyVelocities = delegate.getBoidVelocitiesWithin(VISIBLE_DIS, ofBoid: self)
     let newVelocity = sumOf(nearbyVelocities)
-    return CGPoint(x: newVelocity.x/VEL_MATCHING, y: newVelocity.y/VEL_MATCHING)
+    return CGPoint(x: newVelocity.x/ALIGNMENT, y: newVelocity.y/ALIGNMENT)
   }
   
 }
