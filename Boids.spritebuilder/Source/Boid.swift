@@ -34,7 +34,6 @@ class Boid: CCSprite {
     position = sumOf([velocity,position])
     position = modulo(position)
     
-    
     rotation = atan2(Float(velocity.x), Float(velocity.y)) * 180 / Float(M_PI)
   }
   
@@ -57,13 +56,11 @@ class Boid: CCSprite {
     return sum
   }
   
-  // Boids try to fly towards the center of neighbouring boids.
+  // Boids swim toward other nearby boids.
   func rule1() -> CGPoint {
     let boidsNearMe = delegate.getBoidPositionsWithin(VISIBLE_DIS, ofBoid: self)
     
-    
     var averagePoint = CGPoint()
-    
     if Bool(boidsNearMe.count){
       for point in boidsNearMe{
         averagePoint = CGPoint(x: averagePoint.x + point.x, y: averagePoint.y + point.y)
@@ -75,25 +72,21 @@ class Boid: CCSprite {
     
   }
   
-  // Boids try to keep a small distance away from other boids.
+  // Boids keep a small distance from nearby boids.
   func rule2() -> CGPoint {
     let boidsTooClose = delegate.getBoidPositionsWithin(CAUTION_DIS, ofBoid: self)
-    var velocity = CGPoint()
+    var newVelocity = CGPoint()
     for point in boidsTooClose {
-      velocity = CGPoint(x: -velocity.x + (position.x - point.x), y: -velocity.y + (position.y - point.y))
+      newVelocity = CGPoint(x:  (position.x - point.x) - newVelocity.x , y: (position.y - point.y) - newVelocity.y)
     }
-    return CGPoint(x: velocity.x / REPULSION, y: velocity.y / REPULSION)
+    return CGPoint(x: newVelocity.x / REPULSION, y: newVelocity.y / REPULSION)
   }
   
-  // Boids try to match velocity with nearby boids.
+  // Boids match velocity with nearby boids.
   func rule3() -> CGPoint {
     let nearbyVelocities = delegate.getBoidVelocitiesWithin(VISIBLE_DIS, ofBoid: self)
-    let velocity = sumOf(nearbyVelocities)
-    return CGPoint(x: velocity.x/VEL_MATCHING, y: velocity.y/VEL_MATCHING)
-  }
-  
-  func averageBoid(positions: [Boid]) -> CGPoint{
-    return CGPoint()
+    let newVelocity = sumOf(nearbyVelocities)
+    return CGPoint(x: newVelocity.x/VEL_MATCHING, y: newVelocity.y/VEL_MATCHING)
   }
   
 }
