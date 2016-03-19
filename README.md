@@ -1,7 +1,9 @@
 # Boids
-A boid tutorial using Swift and Cocos2D
+
+Get started by downloading [this](https://github.com/JorrieB/Boids/archive/tutorial.zip) project. First, the project in SpriteBuilder and publish it. Then, open the project in XCode. This is where we'll spend the remainder of the tutorial.
 
 
-Swarm intelligence (SI) is the collective behavior of decentralized, self-organized systems, natural or artificial. The concept is employed in work on artificial intelligence.
 
-Get started by downloading [this](https://github.com/jorrieb/Boids/archive/{sha}.zip) project.
+This is what the final project will look like!
+
+![](Assets/boidFinalProduct.gif)

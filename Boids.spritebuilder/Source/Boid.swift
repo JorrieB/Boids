@@ -76,6 +76,7 @@ class Boid: CCSprite {
     }
     let sum = sumOf(points)
     return CGPoint(x: sum.x/CGFloat(points.count), y: sum.y/CGFloat(points.count))
+
   }
   
   //Returns vector from self to central point of given array
