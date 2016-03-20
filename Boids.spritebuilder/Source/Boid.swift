@@ -18,13 +18,13 @@ class Boid: CCSprite {
   
   //MARK: Rule Variables
   //Rule 1
-  let VISIBLE_DIS : CGFloat = 60
-  let COHESION : CGFloat = 900
+  let VISIBLE_DIS : CGFloat = 80
+  let COHESION : CGFloat = 1000
   //Rule 2
-  let COLLIDE_DIS : CGFloat = 20
-  let SEPARATION : CGFloat = 150
+  let COLLIDE_DIS : CGFloat = 30
+  let SEPARATION : CGFloat = 200
   //Rule 3
-  let ALIGNMENT : CGFloat = 150
+  let ALIGNMENT : CGFloat = 100
 
   override func update(delta: CCTime) {
     
@@ -104,7 +104,7 @@ class Boid: CCSprite {
   func rule2() -> CGPoint {
     let boidsTooClose = delegate.getBoidPositionsWithin(COLLIDE_DIS, ofBoid: self)
     var separationVector = vectorToCenterPointOf(boidsTooClose)
-    separationVector = CGPoint(x:-separationVector.x,y:-separationVector.y)
+    separationVector = CGPoint(x:-separationVector.x,y:-separationVector.y) //Steer away (invert vector to centerpoint)
     return CGPoint(x: separationVector.x/SEPARATION, y: separationVector.y/SEPARATION)
   }
   
@@ -119,6 +119,11 @@ class Boid: CCSprite {
 }
 
 protocol BoidDelegate {
+  //x : the distance in pixels which the given boid can see
+  //ofBoid : the boid which is searching for neighbors
+  //returns : a list of the positions of the found neighbors
   func getBoidPositionsWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
+  
+  
   func getBoidVelocitiesWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
 }
