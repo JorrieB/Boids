@@ -15,7 +15,7 @@ A tutorial on simulating the behavior of simple groups of animals - flocks of bi
 
 
 ###Getting Started
-Download the project skeleton [here](https://github.com/JorrieB/Boids/archive/tutorial.zip). Because it is a SpriteBuilder project, the first thing you need to do is open it in SpriteBuilder and publish it. You can then open the project in XCode(⇧⌘O) and close SpriteBuilder; we'll be working in XCode for the remainder of the tutorial.
+Download the project skeleton [here](https://github.com/JorrieB/Boids/archive/skeleton.zip). Because it is a SpriteBuilder project, the first thing you need to do is open it in SpriteBuilder and publish it. You can then open the project in XCode(⇧⌘O) and close SpriteBuilder; we'll be working in XCode for the remainder of the tutorial.
 
 If you browse the code at this point, you'll see that there are two Swift files: MainScene and Boid. As you may intuit, MainScene holds the logic for setting up the scene in which our boids live. There is no need to write anything in MainScene, but if you're interested in how the two BoidDelegate methods work (which we will use later), you can find their implementation here. 
 
