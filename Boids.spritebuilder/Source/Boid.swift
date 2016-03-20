@@ -18,13 +18,10 @@ class Boid: CCSprite {
   
 //MARK: Rule Variables
   //Rule 1
-  let VISIBLE_DIS : CGFloat = 80
-  let COHESION : CGFloat = 1000
+  
   //Rule 2
-  let COLLIDE_DIS : CGFloat = 30
-  let SEPARATION : CGFloat = 200
+  
   //Rule 3
-  let ALIGNMENT : CGFloat = 100
 
   override func update(delta: CCTime) {
     
@@ -95,26 +92,19 @@ class Boid: CCSprite {
   //Cohesion
   //Boids steer toward other nearby boids
   func rule1() -> CGPoint{
-    let visibleBoids = delegate.getBoidPositionsWithin(VISIBLE_DIS, ofBoid: self)
-    let cohesionVector = vectorToCenterPointOf(visibleBoids)
-    return CGPoint(x: cohesionVector.x/COHESION, y:cohesionVector.y/COHESION)
+    return CGPoint()
   }
   
   //Separation
   //Boids avoid colliding with nearby boids
   func rule2() -> CGPoint {
-    let boidsTooClose = delegate.getBoidPositionsWithin(COLLIDE_DIS, ofBoid: self)
-    var separationVector = vectorToCenterPointOf(boidsTooClose)
-    separationVector = CGPoint(x:-separationVector.x,y:-separationVector.y) //Steer away (invert vector to centerpoint)
-    return CGPoint(x: separationVector.x/SEPARATION, y: separationVector.y/SEPARATION)
+    return CGPoint()
   }
   
   //Alignment
   //Boids match the movement of nearby boids
   func rule3() -> CGPoint {
-    let boidVelocities = delegate.getBoidVelocitiesWithin(VISIBLE_DIS, ofBoid:self)
-    let alignmentVector = avgOf(boidVelocities)
-    return CGPoint(x: alignmentVector.x / ALIGNMENT, y: alignmentVector.y / ALIGNMENT)
+    return CGPoint()
   }
   
 }
