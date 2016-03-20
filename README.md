@@ -11,6 +11,8 @@ A tutorial on simulating the behavior of simple groups of animals - flocks of bi
 * Program a basic boid.
 * Gain intuition on how swarm intelligence can be used to model more complex flocking behaviors.
 
+This is what you are about to create:
+
 ![](Assets/boidFinalProduct.gif)
 
 
