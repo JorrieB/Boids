@@ -10,13 +10,13 @@ import Foundation
 
 class Boid: CCSprite {
   
-  let MAX_VELOCITY : CGFloat = 1.5
+  let MAX_VELOCITY : CGFloat = 1.5 //arbitrary speed limit
   
   var velocity = CGPoint()
   var delegate : BoidDelegate!
   
   
-  //MARK: Rule Variables
+//MARK: Rule Variables
   //Rule 1
   let VISIBLE_DIS : CGFloat = 80
   let COHESION : CGFloat = 1000
@@ -28,17 +28,18 @@ class Boid: CCSprite {
 
   override func update(delta: CCTime) {
     
+    //calculate velocities from each rule
     let v1 = rule1()
     let v2 = rule2()
     let v3 = rule3()
     
-    velocity = sumOf([velocity,v1,v2,v3])
+    velocity = sumOf([velocity,v1,v2,v3])//find the new velocity
     
-    speedCheck()
+    speedCheck() //ensure the velocity is below speed limit
     position = sumOf([velocity,position]) //update position by velocity
-    position = modulo(position)
+    position = modulo(position) //modulus the position of the boid such that it wraps around the screen
     
-    rotation = atan2(Float(velocity.x), Float(velocity.y)) * 180 / Float(M_PI)
+    rotation = atan2(Float(velocity.x), Float(velocity.y)) * 180 / Float(M_PI) //match the boid's orientation with its current velocity
   }
   
   
@@ -91,8 +92,8 @@ class Boid: CCSprite {
   
 //MARK: Rules
   
-  // Cohesion
-  // Boids steer toward other nearby boids
+  //Cohesion
+  //Boids steer toward other nearby boids
   func rule1() -> CGPoint{
     let visibleBoids = delegate.getBoidPositionsWithin(VISIBLE_DIS, ofBoid: self)
     let cohesionVector = vectorToCenterPointOf(visibleBoids)
@@ -124,6 +125,8 @@ protocol BoidDelegate {
   //returns : a list of the positions of the found neighbors
   func getBoidPositionsWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
   
-  
+  //x : the distance in pixels which the given boid can see
+  //ofBoid : the boid which is searching for neighbors
+  //returns : a list of the velocities of the found neighbors
   func getBoidVelocitiesWithin(x:CGFloat, ofBoid:Boid) -> [CGPoint]
 }
