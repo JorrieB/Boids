@@ -3,13 +3,13 @@
 A tutorial on simulating the behavior of simple groups of animals - flocks of birds, schools of fish - using SpriteBuilder and Cocos2D.
 
 ###What are boids?
-Imagine you're making a virtual reality game where the player is a scuba diver exploring coral reefs and you want to have schools of fish swimming around reacting to player movement to make the experience more immersive. How will you simulate realistic behavior for hundreds of fish? Animating each individually would be impossible. Further, if you 
+[Swarm intelligence](https://www.wikipedia.org/swarmintelligence) was created by Craig Reynolds in 1986 to simulate the flocking behaviors of animal groups. Swarm intelligence is especially interesting because, as you will see today, complex flocking behaviors can be modeled by independent agents - called boids, short for bird-oid objects - acting on a very simple set of rules. 
 
+#####In this tutorial, you will:
 
-
-* Pose the question of how would you make a herd of something seem realistic?
-* Meet boids. Give definition.
-* Give applications
+* Learn what swarm intelligence is.
+* Program a basic boid.
+* Gain intuition on how swarm intelligence can be used to model more complex flocking behaviors.
 
 ![](Assets/boidFinalProduct.gif)
 
@@ -111,8 +111,4 @@ As before, define a new variable called <code>ALIGNMENT</code> and set it to 100
     return CGPoint(x: alignmentVector.x / ALIGNMENT, y: alignmentVector.y / ALIGNMENT)
 
 
-Congratulations! You've created swarm intelligence!
-The coolest part aboud the boid AI is that you can add to it. Boids this simple are really only good for basic behaviors, but more complex
-
-###Where to go from here
-Congratulations!  The coolest part of swarm intellignece
+Congratulations! You've created swarm intelligence! Though this is a very basic boid, it is easy to imagine how you could add more complex behavior. For instance, you could have the boids avoid the user's touch by simply adding a method by which boids search for touch, then steer directly away from it. However, boids aren't just good for modeling movement; their applications can be far more abstract. An example is [this](http://www.gamasutra.com/view/feature/1815/modeling_opinion_flow_in_humans_.php) Gamasutra article, which describes how boids algorithms can be used to model social networks. In truth, boids can be used to model any situation where there exist independent agents working under a set of well-defined rules. Now go out and find them!
