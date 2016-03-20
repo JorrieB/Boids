@@ -1,6 +1,6 @@
-# Boids
+## Boids
 
-A tutorial on simulating the behavior of simple groups of animals - flocks of birds, schools of fish - using SpriteBuilder and Cocos2D.
+A tutorial on simulating the behavior of simple groups of animals - i.e. flocks of birds, schools of fish, etc. - using SpriteBuilder and Cocos2D.
 
 ###What are boids?
 [Swarm intelligence](https://www.wikipedia.org/swarmintelligence) was created by Craig Reynolds in 1986 to simulate the flocking behaviors of animal groups. Swarm intelligence is especially interesting because, as you will see today, complex flocking behaviors can be modeled by independent agents - called boids, short for bird-oid objects - acting on a very simple set of rules. 
@@ -11,7 +11,8 @@ A tutorial on simulating the behavior of simple groups of animals - flocks of bi
 * Program a basic boid.
 * Gain intuition on how swarm intelligence can be used to model more complex flocking behaviors.
 
-This is what you are about to create:
+
+By the end of the tutorial, you will have created this:
 
 ![](Assets/boidFinalProduct.gif)
 
@@ -37,7 +38,7 @@ The first component of flocking behavior is a tendency to stay together. In our 
 
 Before we start coding, let's think about the steps involved in creating cohesion. First, our boid must look around for boids within its line of sight. Given the position of all its neighbors, our boid must then calculate the vector from itself to that point. Finally, we must give our boid a reasonable velocity toward that point.
 
-Open Boid.Swift and navigate to the method <code>rule1()</code> - this will be our cohesion rule. Let's implement it one sentence at a time.
+Open Boid.Swift and navigate to the method <code>rule1()</code>. Let's implement it one sentence at a time.
 
 #####Look for neighbors
 Call <code>getBoidPositionsWithin(x:CGFloat, ofBoid:Boid)</code> on the boid's delegate and assign the resulting list of boid positions to a variable. For the value x (the distance in pixels which we declare our boid can see), assign a value which makes sense in the current context - that is, some distance reasonably far from the boid that doesn't span the entire screen. When you have values in your program that may need to be tweaked later, it is a good idea to declare and use a variable for that value. Doing so means you don't have to search your code for every important value whenever you want to make a change. At the top of Boid.Swift, insert the following line <code>let VISIBLE_DIS : CGFloat = 80</code> and use it in your method call as x. For the value <code>ofBoid</code>, input self - after all, each boid only cares about finding its own neighbors. The result should be the following:
@@ -108,7 +109,7 @@ To find the average of a set of points, a helper method <code>avgOf(points:[CGPo
 	let alignmentVector = avgOf(boidVelocities)
 	
 #####Return the appropriate velocity
-As before, define a new variable called <code>ALIGNMENT</code> and set it to 100. The result will be that your boids prioritize alignment with other boids over everything else, so they'll tend to _move_ as a group as opposed to focusing just on grouping.
+As before, define a new variable called <code>ALIGNMENT</code> and set it to 100. In doing so, boids will prioritize alignment with other boids over everything else, so they'll tend to _move_ as a group as opposed to focusing just on grouping.
 
     return CGPoint(x: alignmentVector.x / ALIGNMENT, y: alignmentVector.y / ALIGNMENT)
 
