@@ -3,7 +3,7 @@
 A tutorial on simulating the behavior of simple groups of animals - i.e. flocks of birds, schools of fish, etc. - using SpriteBuilder and Cocos2D.
 
 ###What are boids?
-[Swarm intelligence](https://www.wikipedia.org/swarmintelligence) was created by Craig Reynolds in 1986 to simulate the flocking behaviors of animal groups. Swarm intelligence is especially interesting because, as you will see today, complex flocking behaviors can be modeled by independent agents - called boids, short for bird-oid objects - acting on a very simple set of rules. 
+[Swarm intelligence](https://en.wikipedia.org/wiki/Swarm_intelligence) was created by Craig Reynolds in 1986 to simulate the flocking behaviors of animal groups. Swarm intelligence is especially interesting because, as you will see today, complex flocking behaviors can be modeled by independent agents - called boids, short for bird-oid objects - acting on a very simple set of rules. 
 
 #####In this tutorial, you will:
 
